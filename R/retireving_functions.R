@@ -52,9 +52,8 @@ geony_latlong = function(housenum, street, borough, app_id, key, simplify = T) {
 
   target = jsonlite::fromJSON(target)
 
-
-  final = c(q$address$longitude,
-  q$address$latitude)
+  final = c(target$address$longitude,
+  target$address$latitude)
 
   return(final)
 

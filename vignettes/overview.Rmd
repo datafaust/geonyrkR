@@ -17,7 +17,7 @@ library(geonyrkR)
 
 This quick wrapper function gives access through R to geoclient V1. For structued addresses run the following code; to return a dataframe enter simplify = T:
 
-```{r}
+```{r, echo=TRUE}
 
 sampler = geony_raw("5123", "108st", "queens", "f2e57cb4", "68779dfdbac8b55ecbe179e6d64dd734")
 sampler$address$latitude
@@ -26,24 +26,22 @@ sampler$address$latitude
 
 In order to pull straight longitude and latitude alone run the following:
 
-```{r}
+```{r, echo=TRUE}
 geony_latlong("5123", "108st", "queens", "f2e57cb4", "68779dfdbac8b55ecbe179e6d64dd734")
 ```
 
 For unstructured addresses run the following to get longitude and latitude:
 
-```{r}
+```{r, echo=TRUE}
 geony_address("314west100stmanhattan", "f2e57cb4", "68779dfdbac8b55ecbe179e6d64dd734")
 ```
 
 For intersections run the following; result is a raw list, you can parse manually:
 
-```{r}
+```{r, echo=TRUE}
 sampler = geony_intersect("broad st","beaver st","manhattan" ,"f2e57cb4", "68779dfdbac8b55ecbe179e6d64dd734")
 sampler$intersection$boroughCode1In
 ```
-
-
 
 Also a quote using `>`:
 
