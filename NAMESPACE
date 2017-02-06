@@ -2,5 +2,6 @@
 
 export(geony_address)
 export(geony_fips)
+export(geony_intersect)
 export(geony_latlong)
 export(geony_raw)

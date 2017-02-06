@@ -89,6 +89,32 @@ geony_address = function(address, app_id, key, simplify = T) {
 }
 
 
+#' Extract longlat for a given cross street
+#'
+#' @param cross_street_one a single string cross street input, spaces are fine.
+#' @param cross_street_two a single string cross street input, spaces are fine.
+#' @param borough a borough input.
+#' @param app_id app id.
+#' @param key key.
+#' @keywords geony
+#' @export
+#' @examples
+#' geony_intersect("broad st","beaver st","manhattan" ,"f2e57cb4", "68779dfdbac8b55ecbe179e6d64dd734")
+
+geony_intersect = function(cross_street_one,cross_street_two,borough,app_id, key, simplify = T) {
+  
+  place = paste0("https://api.cityofnewyork.us/geoclient/v1/intersection.json?crossStreetOne=",cross_street_one,"&crossStreetTwo=",cross_street_two,"&borough=",borough,"&app_id=",app_id,"&app_key=",key,"")
+  
+  place = gsub("[[:space:]]", "", place)
+  
+  target = RCurl::getURL(place)
+  
+  target = jsonlite::fromJSON(target)
+  
+  return(target)
+  
+}
+
 
 
 # FCC's Census Block Conversions API
