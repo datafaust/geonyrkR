@@ -1,7 +1,7 @@
 
-#' Extracting all Data from geoclient V1  with full partitioned address
+#' Extracting all Data from geoclient V1 with a full partitioned address
 #'
-#' This function returns all raw data from geo client for a given address
+#' This function returns all raw data from geo client for a given structured address
 #' @param housenum the house number.
 #' @param street the street number.
 #' @param borough borough.
@@ -10,11 +10,11 @@
 #' @keywords geony
 #' @export
 #' @examples
-#' geony_raw("5123", "108st", "queens", "f2e57cb4", "68779dfdbac8b55ecbe179e6d64dd734")
+#' geony_all("5123", "108st", "queens", "f2e57cb4", "68779dfdbac8b55ecbe179e6d64dd734")
 
 #extract raw data
-geony_raw = function(housenum, street, borough, app_id, key, simplify = T) {
-
+geony_all = function(housenum, street, borough, app_id, key) {
+  
   place = paste0("https://api.cityofnewyork.us/geoclient/v1/address.json?houseNumber=",housenum,"&street=",street,"&borough=",borough,"&app_id=",app_id,"&app_key=",key,"")
 
   place = gsub("[[:space:]]", "", place)
@@ -28,9 +28,9 @@ geony_raw = function(housenum, street, borough, app_id, key, simplify = T) {
 }
 
 
-#' Extracting longlat for a given address from geoclient V1 with full partitioned address
+#' Extracting longlat for a given address from geoclient V1 with a full partitioned address
 #'
-#' This function returns longlat from geo client for a given address
+#' This function returns longlat from geo client for a given address structured
 #' @param housenum the house number.
 #' @param street the street number.
 #' @param borough borough.
@@ -42,7 +42,9 @@ geony_raw = function(housenum, street, borough, app_id, key, simplify = T) {
 #' geony_latlong("5123", "108st", "queens", "f2e57cb4", "68779dfdbac8b55ecbe179e6d64dd734")
 
 #extract only longitude and latitude
-geony_latlong = function(housenum, street, borough, app_id, key, simplify = T) {
+geony_latlong = function(housenum, street, borough, app_id, key, simplify = F) {
+  
+  if (simplify == F) {
 
   place = paste0("https://api.cityofnewyork.us/geoclient/v1/address.json?houseNumber=",housenum,"&street=",street,"&borough=",borough,"&app_id=",app_id,"&app_key=",key,"")
 
@@ -56,6 +58,25 @@ geony_latlong = function(housenum, street, borough, app_id, key, simplify = T) {
   target$address$latitude)
 
   return(final)
+  
+  } else {
+    
+    place = paste0("https://api.cityofnewyork.us/geoclient/v1/address.json?houseNumber=",housenum,"&street=",street,"&borough=",borough,"&app_id=",app_id,"&app_key=",key,"")
+    
+    place = gsub("[[:space:]]", "", place)
+    
+    target = RCurl::getURL(place)
+    
+    target = jsonlite::fromJSON(target)
+    
+    final = c(target$address$longitude,
+              target$address$latitude)
+    
+    return(as.data.frame(t(final)))   
+    
+    
+    
+  }
 
 }
 
@@ -69,12 +90,15 @@ geony_latlong = function(housenum, street, borough, app_id, key, simplify = T) {
 #' @keywords geony
 #' @export
 #' @examples
-#' geony_address("314west100stmanhattan", "f2e57cb4", "68779dfdbac8b55ecbe179e6d64dd734")
+#' geony_raw("314west100stmanhattan", "f2e57cb4", "68779dfdbac8b55ecbe179e6d64dd734")
+#' Unstructured query takes a multitude of parameters e.g (addresses, bbls, intersections) see https://api.cityofnewyork.us/geoclient/v1/doc#section-1.3 for for information.
 
-geony_address = function(address, app_id, key, simplify = T) {
+geony_raw = function(address, app_id, key, simplify = F) {
 
+  if (simplify == F) {
+  
   place = paste0("https://api.cityofnewyork.us/geoclient/v1/search.json?input=",address,"&app_id=",app_id,"&app_key=",key,"")
-
+print(place)
   place = gsub("[[:space:]]", "", place)
 
   target = RCurl::getURL(place)
@@ -84,6 +108,24 @@ geony_address = function(address, app_id, key, simplify = T) {
   final = c(target$results$response$longitudeInternalLabel,target$results$response$latitudeInternalLabel)
 
   return(final)
+  
+  } else {
+    place = paste0("https://api.cityofnewyork.us/geoclient/v1/search.json?input=",address,"&app_id=",app_id,"&app_key=",key,"")
+    
+ print(place)   
+    place = gsub("[[:space:]]", "", place)
+    
+    target = RCurl::getURL(place)
+    
+    target = jsonlite::fromJSON(target)
+    
+    final = c(target$results$response$longitudeInternalLabel,target$results$response$latitudeInternalLabel)
+    
+    return(as.data.frame(t(final)))
+      
+    
+  }
+  
 
 }
 
@@ -100,7 +142,7 @@ geony_address = function(address, app_id, key, simplify = T) {
 #' @examples
 #' geony_intersect("broad st","beaver st","manhattan" ,"f2e57cb4", "68779dfdbac8b55ecbe179e6d64dd734")
 
-geony_intersect = function(cross_street_one,cross_street_two,borough,app_id, key, simplify = T) {
+geony_intersect = function(cross_street_one,cross_street_two,borough,app_id, key) {
   
   place = paste0("https://api.cityofnewyork.us/geoclient/v1/intersection.json?crossStreetOne=",cross_street_one,"&crossStreetTwo=",cross_street_two,"&borough=",borough,"&app_id=",app_id,"&app_key=",key,"")
   
@@ -113,6 +155,7 @@ geony_intersect = function(cross_street_one,cross_street_two,borough,app_id, key
   return(target)
   
 }
+
 
 
 

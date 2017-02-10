@@ -2,9 +2,9 @@
 % Please edit documentation in R/retireving_functions.R
 \name{geony_latlong}
 \alias{geony_latlong}
-\title{Extracting longlat for a given address from geoclient V1 with full partitioned address}
+\title{Extracting longlat for a given address from geoclient V1 with a full partitioned address}
 \usage{
-geony_latlong(housenum, street, borough, app_id, key, simplify = T)
+geony_latlong(housenum, street, borough, app_id, key, simplify = F)
 }
 \arguments{
 \item{housenum}{the house number.}
@@ -18,7 +18,7 @@ geony_latlong(housenum, street, borough, app_id, key, simplify = T)
 \item{key}{key.}
 }
 \description{
-This function returns longlat from geo client for a given address
+This function returns longlat from geo client for a given address structured
 }
 \examples{
 geony_latlong("5123", "108st", "queens", "f2e57cb4", "68779dfdbac8b55ecbe179e6d64dd734")

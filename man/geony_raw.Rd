@@ -2,26 +2,23 @@
 % Please edit documentation in R/retireving_functions.R
 \name{geony_raw}
 \alias{geony_raw}
-\title{Extracting all Data from geoclient V1  with full partitioned address}
+\title{Extract longlat for a given address from geoclient v1 with a single string address}
 \usage{
-geony_raw(housenum, street, borough, app_id, key, simplify = T)
+geony_raw(address, app_id, key, simplify = F)
 }
 \arguments{
-\item{housenum}{the house number.}
-
-\item{street}{the street number.}
-
-\item{borough}{borough.}
+\item{address}{a single string address input, spaces are fine.}
 
 \item{app_id}{app id.}
 
 \item{key}{key.}
 }
 \description{
-This function returns all raw data from geo client for a given address
+Extract longlat for a given address from geoclient v1 with a single string address
 }
 \examples{
-geony_raw("5123", "108st", "queens", "f2e57cb4", "68779dfdbac8b55ecbe179e6d64dd734")
+geony_raw("314west100stmanhattan", "f2e57cb4", "68779dfdbac8b55ecbe179e6d64dd734")
+Unstructured query takes a multitude of parameters e.g (addresses, bbls, intersections) see https://api.cityofnewyork.us/geoclient/v1/doc#section-1.3 for for information.
 }
 \keyword{geony}
 

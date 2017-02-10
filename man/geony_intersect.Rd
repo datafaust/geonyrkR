@@ -4,8 +4,7 @@
 \alias{geony_intersect}
 \title{Extract longlat for a given cross street}
 \usage{
-geony_intersect(cross_street_one, cross_street_two, borough, app_id, key,
-  simplify = T)
+geony_intersect(cross_street_one, cross_street_two, borough, app_id, key)
 }
 \arguments{
 \item{cross_street_one}{a single string cross street input, spaces are fine.}
